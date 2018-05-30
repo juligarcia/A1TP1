@@ -138,7 +138,7 @@ status_t grabar_fichero_txt(simpletron_t *simpletron){
 status_t leer_stdin(simpletron_t *simpletron){
 	
 	int i, j, k, aux;
-	char buff[MAX_BUFF],aux2[3],*pnl;
+	char buff[MAX_BUFF],*pnl;
 	char aux[MAX_POS_NUM+1];
 	
 	simpletron->palabras = (palabra_t *)calloc(simpletron->cant, sizeof(palabra_t));
@@ -292,10 +292,9 @@ status_t proceso_argumentos(int argc, char **argv, simpletron_t *simpletron, PAR
 			break;
 		}
 	}
-	for(i=1;i<cuenta;i++)
-	{
+	for(i=1;i<cuenta;i++){
 		if(strcmp(argv[i],PARAM1)==0){
-			if((argv[i+1][0])!=FSIMBOL) {
+			if((argv[i+1][0])!=FSIMBOL){
 				(*simpletron).nomin=argv[i+1];
 				break;
 			}
@@ -303,10 +302,9 @@ status_t proceso_argumentos(int argc, char **argv, simpletron_t *simpletron, PAR
 			break;
 		}
 	}
-	for(i=1;i<cuenta;i++)
-	{
+	for(i=1;i<cuenta;i++){
 		if(strcmp(argv[i],PARAM4)==0){
-			if(argv[i+1][0]!=FSIMBOL) {
+			if(argv[i+1][0]!=FSIMBOL){
 				(*simpletron).nomout=argv[i+1];	
 				break;
 			}
@@ -314,41 +312,42 @@ status_t proceso_argumentos(int argc, char **argv, simpletron_t *simpletron, PAR
 			break;
 		}
 	}
-	for(i=1;i<cuenta;i++)
-	{
+	for(i=1;i<cuenta;i++){
 		if(strcmp(argv[i],PARAM2)==0){
-			if(argv[i+1][0]==FSIMBOL) return ST_ERROR_MISS_ARG;
+			if(argv[i+1][0]==FSIMBOL){
+				return ST_ERROR_MISS_ARG;
+				}
 			if(strcmp(argv[i+1],DE_TXT)==0){
 				(*flags).itxt=true;
 				break;
-			}
+				}
 			if(strcmp(argv[i+1],DE_BIN)==0){
 				(*flags).itxt=false;
 				break;
-			}
+				}
 			return ST_ERROR_ARG_LEIDOS;
+			}
 		}
-	}
-	for(i=1;i<cuenta;i++)
-	{
+	for(i=1;i<cuenta;i++){
 		if(strcmp(argv[i],PARAM3)==0){
-			if(argv[i+1][0]==FSIMBOL)  return ST_ERROR_MISS_ARG;
+			if(argv[i+1][0]==FSIMBOL){
+				return ST_ERROR_MISS_ARG;
+				}
 			if(strcmp(argv[i+1],DE_TXT)==0){
 				(*flags).otxt=true;
 				break;
-			}
+				}
 			if(strcmp(argv[i+1],DE_BIN)==0){
 				(*flags).otxt=false;
 				break;
-			}
+				}
 			return ST_ERROR_ARG_LEIDOS;
+			}
 		}
-	}
 	return ST_OK;
-}
+	}
 
-status_t op_leer(int **memval,int pos)
-{
+status_t op_leer(int **memval,int pos){
 	char buff[(MAX_PROC_NUM+MAX_POS_NUM)*2];
 	char *pnl;
 	
@@ -359,7 +358,7 @@ status_t op_leer(int **memval,int pos)
 	if((*pnl='\0')&&(*pnl!='\n')) return ST_ERROR_NO_NUM;
 	if((*memval)[pos]<0) return ST_ERROR_NEG;
 	return ST_OK;
-}
+	}	
 
 
 
@@ -371,7 +370,7 @@ status_t procesamiento(simpletron_t *simpletron){
 	printf("%s\n\n", MSJ_COMIENZO_PROC);
 
 	for(simpletron->pc = 0; simpletron->pc < simpletron->cant; (simpletron->pc)++){
-		switch ((simpletron->palabras[pc])/100){
+		switch ((simpletron->palabras[simpletron->pc])/100){
 			
 			case ARG_LEER: 
 				if(op_leer(&(*simpletron).memval, (*simpletron).palabras[i].pos)!= ST_OK){
@@ -450,25 +449,24 @@ status_t procesamiento(simpletron_t *simpletron){
 			case ARG_JMPZERO: 
 				if((op_jmpzero(simpletron)) == true){
 					printf("%s:%02d\n\n", MSJ_JMP, simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) + 2]);
-				}
+					}
 
 				break;
 
 			case ARG_JNZ: 
 				if((op_jmz(simpletron)) == true){
 					printf("%s:%02d\n\n", MSJ_JMP, simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) + 2]);
-				}
+					}
 
 				break;
 
 			case ARG_DJNZ: 		
 				if((op_djnz(simpletron)) == true){
 					printf("%s:%02d y %s:%02d\n\n", MSJ_RESTA, simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)], MSJ_JMP, 0);
-				}
+					}
 				else{
 					printf("%s:%02d\n\n", MSJ_RESTA, simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)]);
-				}
-
+					}
 
 				break;	
 
@@ -484,16 +482,16 @@ status_t procesamiento(simpletron_t *simpletron){
 				break;
 			}
 		
-	}
+		}
 	return ST_OK;
-}
+	}
 
 
 void op_cargar(simpletron_t *simpletron){
 	
 	/*Carga una palabra de la memoria al acumulador*/
 
-	simpletron->acumulador = simpletron->palabras[pc];
+	simpletron->acumulador = simpletron->palabras[simpletron->pc];
 
 }
 
@@ -501,7 +499,7 @@ void op_guardar(simpletron_t *simpletron){
 
 	/*Guarda el contenido del acumulador en una posicion de memoria*/
 
-	simpletron->palabras[(simpletron->palabras[pc]) - 100*((simpletron->palabras[pc])/100)] = simpletron->acumulador;
+	simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)] = simpletron->acumulador;
 
 }
 
@@ -509,7 +507,7 @@ void op_sumar(simpletron_t *simpletron){
 
 	/*Suma una palabra al acumulador*/
 
-	simpletron->acumulador += simpletron->palabras[(simpletron->palabras[pc]) - 100*((simpletron->palabras[pc])/100)];
+	simpletron->acumulador += simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)];
 
 }
 
@@ -517,7 +515,7 @@ void op_restar(simpletron_t *simpletron){
 
 	/*Resta una palabra al acumulador*/
 
-	simpletron->acumulador.pal -= simpletron->palabras[(simpletron->palabras[pc]) - 100*((simpletron->palabras[pc])/100)];
+	simpletron->acumulador -= simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)];
 
 }
 
@@ -525,7 +523,7 @@ void op_dividir(simpletron_t *simpletron){
 
 	/*Divide al acumulador por el contenido de la posicion de memoria indicada por el interador "i"*/
 
-	simpletron->acumulador /= simpletron->palabras[(simpletron->palabras[pc]) - 100*((simpletron->palabras[pc])/100)];	
+	simpletron->acumulador /= simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)];	
 
 }
 
@@ -533,95 +531,92 @@ void op_multiplicar(simpletron_t *simpletron){
 
 	/*Multiplicar al acumulador por el contenido de la posicion de memoria indicada por el interador "i"*/
 
-	simpletron->acumulador *= simpletron->palabras[(simpletron->palabras[pc]) - 100*((simpletron->palabras[pc])/100)];
+	simpletron->acumulador *= simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)];
 	
-}
+	}
 
 void op_jmp(simpletron_t *simpletron){
 
 	/*Salta a la orden especificada*/
 
-	simpletron->pc = (simpletron->palabras[pc]) - 100*((simpletron->palabras[pc])/100) - 2 ;
+	simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 2 ;
 
-}
+	}	
 
 bool op_jmpneg(simpletron_t *simpletron){
 
 	/*Salta a la orden especificada SOLO SI el acumulador es negativo*/
 
 	if(simpletron->acumulador < 0){
-		simpletron->pc = (simpletron->palabras[pc]) - 100*((simpletron->palabras[pc])/100) - 2 ;
+		simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 2 ;
 		return true;
-	}
+		}
 
 	else{
 		return false;
+		}
 	}
-}
 
 bool op_jmpzero(simpletron_t *simpletron){
 
 	/*Salta a la orden especificada SOLO SI el acumulador es 0*/
 	
 	if(simpletron->acumulador == 0){
-		simpletron->pc = (simpletron->palabras[pc]) - 100*((simpletron->palabras[pc])/100) - 2 ;
+		simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 2 ;
 		return true;
-	}
+		}
 
 	else{
 		return false;
+		}
 	}
-}
 
 bool op_jmz(simpletron_t *simpletron){
 
 	/*Salta a la orden especificada SOLO SI el acumulador es distinto de 0*/
 
 	if((simpletron->acumulador)){
-		simpletron->pc = (simpletron->palabras[pc]) - 100*((simpletron->palabras[pc])/100) - 2 ;
+		simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 2 ;
 		return true;
-	}
+		}
 
 	else{
 		return false;
+		}
 	}
-}
 
 bool op_djnz(simpletron_t *simpletron){
 
 	/*Decrementa el acumulador por el contenido de la posicion de memoria indicado y, si este no es 0, vuelve al comienzo del ciclo*/
 
-	if(!(simpletron->acumulador -= simpletron->palabra[(simpletron->palabras[pc]) - 100*((simpletron->palabras[pc])/100)])){
+	if(!(simpletron->acumulador -= simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)])){
 		simpletron->pc = -1;
 		return true;
-	}
+		}
 
 	else{
-		simpletron->acumulador -= simpletron->palabra[(simpletron->palabras[pc]) - 100*((simpletron->palabras[pc])/100)]
+		simpletron->acumulador -= simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)];
 		return false;
-	}
-}
+		}
+	}	
 
 void op_cargarp(simpletron_t *simpletron){
 
 	/*Es homologa a la funcion cargar, pero se indica una posicion de memoria donde se sacara un puntero*/
 
-	simpletron->acumulador = simpletron.palabra[simpletron->palabra[(simpletron->palabras[pc]) - 100*((simpletron->palabras[pc])/100)]];
+	simpletron->acumulador = simpletron->palabras[simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)]];
 
-}
+	}
 
 void op_guardarp(simpletron_t *simpletron){
 
 	/*Es homologa a la funcion guardar, pero con puntero como operando*/
 
-	simpletron->palabra[simpletron->palabra[(simpletron->palabras[pc]) - 100*((simpletron->palabras[pc])/100)]] = simpletron->acumulador;
+	simpletron->palabras[simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)]] = simpletron->acumulador;
 
-}
+	}
 
-void op_halt(simpletron_t *simpletron){
+/*void op_halt(simpletron_t *simpletron){}*/
 
-
-}
-
-void imprimir_memo(simpletron_t *simpletron){}
+/*void imprimir_memo(simpletron_t *simpletron){}*/
 

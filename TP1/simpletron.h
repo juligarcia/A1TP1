@@ -44,6 +44,7 @@ void op_halt(simpletron_t *simpletron);
 void imprimir_memo(simpletron_t *simpletron);
 void op_cargarp(simpletron_t *simpletron);
 void op_guardarp(simpletron_t *simpletron);
+void imprimir_memo(simpletron_t *simpletron);
 
 
 
