@@ -17,6 +17,7 @@
 #define JNZ 43
 #define DJNZ 44
 #define HALT 45
+#define END_READ -99999
 /*Modificas la cantidad de comandos*/
 #define MAX_PROC_NUM 2
 #define MAX_POS_NUM 2

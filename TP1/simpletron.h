@@ -18,13 +18,12 @@
 
 /*PROTOTIPOS*/
 
-status_t op_leer(int **memval,int pos);
 status_t leer_stdin(simpletron_t *simpletron);
-status_t leer_fichero_bin(simpletron_t *simpletron);
-status_t leer_fichero_txt(simpletron_t *simpletron);
-status_t grabar_fichero_bin(simpletron_t *simpletron);
-status_t grabar_fichero_txt(simpletron_t *simpletron);
-status_t proceso_argumentos(int argc,char **argv,simpletron_t *simpletron,PARAMETROS_T *flags);
+status_t leer_fichero_bin(simpletron_t *simpletron, char nomin[]);
+status_t leer_fichero_txt(simpletron_t *simpletron, char nomin[]);
+status_t grabar_fichero_bin(simpletron_t *simpletron, char nomout[]);
+status_t grabar_fichero_txt(simpletron_t *simpletron, char nomout[]);
+status_t proceso_argumentos(int argc,char **argv,simpletron_t *simpletron,PARAMETROS_T *flags, char nomin[], char nomout[]);
 status_t procesamiento(simpletron_t *simpletron);
 
 /*Funciones que se usan en el procesamiento*/
@@ -45,6 +44,7 @@ void imprimir_memo(simpletron_t *simpletron);
 void op_cargarp(simpletron_t *simpletron);
 void op_guardarp(simpletron_t *simpletron);
 void imprimir_memo(simpletron_t *simpletron);
+status_t op_leer(simpletron_t *simpletron);
 
 
 

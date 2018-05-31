@@ -4,13 +4,13 @@ int main(int argc,char *argv[]){
 
 	PARAMETROS_T flags;
 	simpletron_t simpletronp;
-	int i;
+	char nomin[MAX_BUFF], nomout[MAX_BUFF];
 
 	printf("%s\n",MSJ_BIENVENIDA);
 	
 	/*Se comienza a procesar argumentos*/
 	
-	if(proceso_argumentos(argc,argv,&simpletronp,&flags) != ST_OK){
+	if(proceso_argumentos(argc, argv, &simpletronp, &flags, nomin, nomout) != ST_OK){
 		return EXIT_FAILURE;
 		}
 
@@ -18,8 +18,8 @@ int main(int argc,char *argv[]){
 		return EXIT_SUCCESS;
 		}
 
-	printf("%s:%s\n", MSJ_AR_ENTRADA, simpletronp.nomin);
-	printf("%s:%s\n", MSJ_AR_SALIDA, simpletronp.nomout);
+	printf("%s:%s\n", MSJ_AR_ENTRADA, nomin);
+	printf("%s:%s\n", MSJ_AR_SALIDA, nomout);
 	printf("%s:%d\n", MSJ_CANT_PROC, simpletronp.cant);
 	
 	/*Se lee y procesa datos por distintos tipos de data input*/
@@ -33,14 +33,14 @@ int main(int argc,char *argv[]){
 	else{
 		switch(flags.itxt){
 			case true:	
-				if(leer_fichero_txt(&simpletronp)!=ST_OK){
+				if(leer_fichero_txt(&simpletronp, nomin)!=ST_OK){
 					return EXIT_FAILURE;
 					}
 					
 					break;
 
 			case false:	
-				if(leer_fichero_bin(&simpletronp)!=ST_OK){
+				if(leer_fichero_bin(&simpletronp, nomin)!=ST_OK){
 					return EXIT_FAILURE;
 					}
 
@@ -75,19 +75,19 @@ int main(int argc,char *argv[]){
 		printf("%s %02d\n", MSJ_OPCODE, simpletronp.palabras[simpletronp.acumulador]);
 		printf("%s %02d\n", MSJ_OPERANDO, simpletronp.palabras[simpletronp.acumulador]);
 		
-		imprimir_memo(&simpletronp);
+		/*imprimir_memo(&simpletronp);*/
 		}
 	
 	else{
 		switch(flags.otxt){
 			case true:	
-				if((grabar_fichero_txt(&simpletronp)) != ST_OK){
+				if((grabar_fichero_txt(&simpletronp, nomout)) != ST_OK){
 					return EXIT_FAILURE;
 					}	
 				break;
 
 			case false:	
-				if((grabar_fichero_bin(&simpletronp)) != ST_OK){
+				if((grabar_fichero_bin(&simpletronp, nomout)) != ST_OK){
 					return EXIT_FAILURE; 
 					}
 				break;
@@ -100,8 +100,8 @@ int main(int argc,char *argv[]){
 
 	/*Finalizacion de guardar archivos de OUTPUT*/
 	
-	printf("%s: %s\n", MSJ_AR_ENTRADA, simpletronp.nomin);
-	printf("%s:%s\n", MSJ_AR_SALIDA, simpletronp.nomout);
+	printf("%s: %s\n", MSJ_AR_ENTRADA, nomin);
+	printf("%s:%s\n", MSJ_AR_SALIDA, nomout);
 	printf("%s:%d\n", MSJ_CANT_PROC, simpletronp.cant);
 	
 	return EXIT_SUCCESS;
@@ -113,13 +113,13 @@ int main(int argc,char *argv[]){
 
 
 
-status_t grabar_fichero_txt(simpletron_t *simpletron){
+status_t grabar_fichero_txt(simpletron_t *simpletron, char nomout[]){
 	
 	FILE *pf;
 	int i=0;
 	
-	printf("%s:%s\n", MSJ_AR_GUARDADO, simpletron->nomin);
-	if((pf = fopen(simpletron->nomout,"w")) == NULL){
+	printf("%s:%s\n", MSJ_AR_GUARDADO, nomout);
+	if((pf = fopen(nomout,"w")) == NULL){
 		return ST_ERROR_PTR_NULL;
 		}
 	fprintf(pf, "%02d", (*simpletron).palabras[i]);
@@ -142,32 +142,40 @@ status_t leer_stdin(simpletron_t *simpletron){
 	
 	simpletron->palabras = (palabra_t *)calloc(simpletron->cant, sizeof(palabra_t));
 	
-	for(k = 0; k < simpletron->cant; k++){
+	for(k = 0; k < simpletron->cant && temp != END_READ; k++){
 
 		printf("%02d %s ", k, OPC_SEP);
 		
 		if(!(fgets(buff, sizeof(buff), stdin))){
 			return ST_ERROR_EOF;
-			}
+		}
 
 		temp = strtol(buff, &pnl, 10);
 		
 		/*Validamos el valor de aux antes de pasarlo al vector de ordenes*/
-		if(temp < 0 || (temp <= 999 && temp > 9999)){
-			return ST_ERROR_INVALPAL;
+		if(temp == END_READ){
+			break;
+		}
+
+		else{
+
+			if(temp < 0 || (temp <= 999 && temp > 9999)){
+				return ST_ERROR_INVALPAL;
 			}
-		temp = simpletron->palabras[k];
+
+		simpletron->palabras[k] = temp;	
+		}
 	}
 
 	return ST_OK;
 }
 
-status_t leer_fichero_bin(simpletron_t *simpletron){
+status_t leer_fichero_bin(simpletron_t *simpletron, char nomin[]){
 	FILE *pf;
 	int i;
 	
 	(*simpletron).palabras=(palabra_t *)calloc((*simpletron).cant,sizeof(palabra_t));
-	if((pf=fopen((*simpletron).nomin,"rb"))==NULL){
+	if((pf=fopen(nomin,"rb"))==NULL){
 		return ST_ERROR_PTR_NULL;
 		}
 	for(i=0;i<(*simpletron).cant;i++){
@@ -189,7 +197,7 @@ status_t leer_fichero_bin(simpletron_t *simpletron){
 	}
 
 
-status_t leer_fichero_txt(simpletron_t *simpletron){
+status_t leer_fichero_txt(simpletron_t *simpletron, char nomin[]){
 	
 	FILE *pf;
 	int k = 0, aux;
@@ -197,7 +205,7 @@ status_t leer_fichero_txt(simpletron_t *simpletron){
 
 	/*simpletron->palabras = (palabra_t *)calloc(DEFAULT_MALLOC, sizeof(palabra_t));*/
 	
-	if(!(pf = fopen(simpletron->nomin, "r"))){
+	if(!(pf = fopen(nomin, "r"))){
 		return ST_ERROR_PTR_NULL;
 		}
 	
@@ -233,13 +241,13 @@ status_t leer_fichero_txt(simpletron_t *simpletron){
 	}
 
 
-status_t grabar_fichero_bin(simpletron_t *simpletron){
+status_t grabar_fichero_bin(simpletron_t *simpletron, char nomout[]){
 	
 	FILE *pf;
 	int i;
 	
-	printf("Nombre archivo:%s\n",(*simpletron).nomout);
-	if((pf=fopen((*simpletron).nomout,"wb"))==NULL){
+	printf("Nombre archivo:%s\n",nomout);
+	if((pf=fopen(nomout, "wb"))==NULL){
 		return ST_ERROR_PTR_NULL;
 		}
 	for(i=0;i<(*simpletron).cant;i++){
@@ -256,8 +264,7 @@ status_t grabar_fichero_bin(simpletron_t *simpletron){
 	return ST_OK;
 }
 
-
-status_t proceso_argumentos(int argc, char **argv, simpletron_t *simpletron, PARAMETROS_T *flags){
+status_t proceso_argumentos(int argc, char **argv, simpletron_t *simpletron, PARAMETROS_T *flags, char nomin[], char nomout[]){
 	
 	int i;
 	int cuenta = (argc-1);
@@ -281,37 +288,39 @@ status_t proceso_argumentos(int argc, char **argv, simpletron_t *simpletron, PAR
 				simpletron->cant = CANT_DEFAULT;
 
 				break;
-				}	
+			}	
 			simpletron->cant = strtol(argv[i + 1], &pnl, 10);
 			
 			if((*pnl = '\0') && *pnl!='\n'){
 				return ST_ERROR_NO_NUM;
-				}
+			}
 
 			if(simpletron->cant == 0){
-				(*simpletron).cant=CANT_DEFAULT;
+				simpletron->cant=CANT_DEFAULT;
 
 				break;
-				}
+			}
 		}
 	}
 	for(i=1;i<cuenta;i++){
 		if(strcmp(argv[i],PARAM1)==0){
 			if((argv[i+1][0])!=FSIMBOL){
-				(*simpletron).nomin=argv[i+1];
+				strcpy(nomin, argv[i + 1]);
+				/*nomin[MAX_BUFF] = argv[i+1];*/
 				break;
 			}
-			(*flags).stdi = true;
+			flags->stdi = true;
 			break;
 		}
 	}
 	for(i=1;i<cuenta;i++){
 		if(strcmp(argv[i],PARAM4)==0){
 			if(argv[i+1][0]!=FSIMBOL){
-				(*simpletron).nomout=argv[i+1];	
+				strcpy(nomin, argv[i + 1]);
+				/*nomout[MAX_BUFF] = argv[i+1];*/
 				break;
 			}
-			(*flags).stdo = true;
+			flags->stdo = true;
 			break;
 		}
 	}
@@ -321,11 +330,11 @@ status_t proceso_argumentos(int argc, char **argv, simpletron_t *simpletron, PAR
 				return ST_ERROR_MISS_ARG;
 				}
 			if(strcmp(argv[i+1],DE_TXT)==0){
-				(*flags).itxt=true;
+				flags->itxt=true;
 				break;
 				}
 			if(strcmp(argv[i+1],DE_BIN)==0){
-				(*flags).itxt=false;
+				flags->itxt=false;
 				break;
 				}
 			return ST_ERROR_ARG_LEIDOS;
@@ -337,11 +346,11 @@ status_t proceso_argumentos(int argc, char **argv, simpletron_t *simpletron, PAR
 				return ST_ERROR_MISS_ARG;
 				}
 			if(strcmp(argv[i+1],DE_TXT)==0){
-				(*flags).otxt=true;
+				flags->otxt=true;
 				break;
 				}
 			if(strcmp(argv[i+1],DE_BIN)==0){
-				(*flags).otxt=false;
+				flags->otxt=false;
 				break;
 				}
 			return ST_ERROR_ARG_LEIDOS;
@@ -350,18 +359,25 @@ status_t proceso_argumentos(int argc, char **argv, simpletron_t *simpletron, PAR
 	return ST_OK;
 	}
 
-status_t op_leer(int **memval,int pos){
-	char buff[(MAX_PROC_NUM+MAX_POS_NUM)*2];
+status_t op_leer(simpletron_t *simpletron){
+	
+	char buff[MAX_BUFF];
 	char *pnl;
 	
-	printf("%s [%d]\n",MSJ_INGRESE_POS,pos);
-	if(fgets(buff,sizeof(buff),stdin)==NULL) return ST_ERROR_INGRESO_POSICION;
-	if((pnl=strchr(buff,'\n'))!=NULL) *pnl='\0';
-	(*memval)[pos]=strtol(buff,&pnl,10);
-	if((*pnl='\0')&&(*pnl!='\n')) return ST_ERROR_NO_NUM;
-	if((*memval)[pos]<0) return ST_ERROR_NEG;
+	printf("%s [%d]\n", MSJ_INGRESE_POS, simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)]);
+	
+	if(!(fgets(buff, sizeof(buff), stdin))){
+		return ST_ERROR_INGRESO_POSICION;
+	}
+
+	if((pnl = strchr(buff, '\n'))){
+		*pnl='\0';
+	}
+
+	simpletron->palabras[simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)]] = strtol(buff, &pnl, 10);
+	
 	return ST_OK;
-	}	
+}	
 
 
 
@@ -376,10 +392,10 @@ status_t procesamiento(simpletron_t *simpletron){
 		switch ((simpletron->palabras[simpletron->pc])/100){
 			
 			case ARG_LEER: 
-				if(op_leer(&(*simpletron).memval, (*simpletron).palabras[i].pos)!= ST_OK){
+				if(op_leer(simpletron) != ST_OK){
 					return EXIT_FAILURE;
-					}
-				printf("%s:%02d %s:%02d\n\n", MSJ_LEER, (*simpletron).memval[(*simpletron).palabras[i].pos], MSJ_POS, (*simpletron).palabras[i].pos);
+				}
+				printf("%s:%02d %s:%02d\n\n", MSJ_LEER, simpletron->palabras[simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)]], MSJ_POS, simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)]);
 				
 				break;
 
@@ -474,7 +490,7 @@ status_t procesamiento(simpletron_t *simpletron){
 				break;	
 
 			case ARG_HALT: 
-				op_halt(simpletron);
+				/*op_halt(simpletron);*/
 				printf("%s\n\n", MSJ_FIN_DEL_PROGRAMA);		
 				
 				break;		

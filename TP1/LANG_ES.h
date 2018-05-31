@@ -1,7 +1,7 @@
 #define MSJ_BIENVENIDA "Bievenido a Simpletron"
 #define MSJ_INSTRUCTOR "A continuacion se pedira ingreso de procedimientos en orden, para finalizar"
 #define MSJ_AYUDA "LA AYUDA VIENE EN CAMINO"
-#define MSJ_INGRESE_POS "Ingrese el valor para posicion"
+#define MSJ_INGRESE_POS "Ingrese la palabra a guardar en la posicion de memoria"
 
 
 /*Mensajes en ESPAÑOL para el seguimiento del procedimiento*/

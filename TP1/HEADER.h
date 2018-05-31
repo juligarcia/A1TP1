@@ -13,7 +13,7 @@ ARG_MULTIPLICAR=MULTIPLICAR,ARG_JMP=JMP,ARG_JMPNEG=JMPNEG,ARG_JMPZERO=JMPZERO,AR
 
 typedef int palabra_t;
 
-typedef struct simpletron_t {palabra_t *palabras; palabra_t acumulador; size_t pc; int cant; char *nomout; char *nomin;} simpletron_t;
+typedef struct simpletron_t {palabra_t *palabras; palabra_t acumulador; size_t pc; int cant;} simpletron_t;
 							
 typedef struct PARAMETROS_T{bool help; bool m; bool ent; bool stdo; bool stdi; bool itxt; bool otxt;}PARAMETROS_T;
 
