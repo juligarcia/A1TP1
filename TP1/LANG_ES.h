@@ -18,6 +18,7 @@
 #define MSJ_JMP "Se ha saltado a la orden N°"
 #define MSJ_CARGARP "Se ha cargado al acumulador el valor de lo apuntado por el puntero de la posicion"
 #define MSJ_GUARDARP "Se ha guardado el valor del acumulador en la posicion indicada por el puntero de la posicion"
+#define MSJ_ORDEN_INVAL "Lo guardado no es una orden valida."
 #define MSJ_FIN_DEL_PROGRAMA "*** FIN DE EJECUCION DEL SIMPLETRON ***"
 /*Mensajes en ESPAÑOL para impresion de datos*/
 #define MSJ_REGISTRO "REGISTRO:"

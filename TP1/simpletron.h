@@ -19,11 +19,11 @@
 /*PROTOTIPOS*/
 
 status_t leer_stdin(simpletron_t *simpletron);
-status_t leer_fichero_bin(simpletron_t *simpletron, char nomin[]);
-status_t leer_fichero_txt(simpletron_t *simpletron, char nomin[]);
-status_t grabar_fichero_bin(simpletron_t *simpletron, char nomout[]);
-status_t grabar_fichero_txt(simpletron_t *simpletron, char nomout[]);
-status_t proceso_argumentos(int argc,char **argv,simpletron_t *simpletron,PARAMETROS_T *flags, char nomin[], char nomout[]);
+status_t leer_fichero_bin(simpletron_t *simpletron, FILE **pf);
+status_t leer_fichero_txt(simpletron_t *simpletron, FILE **pf);
+status_t grabar_fichero_bin(simpletron_t *simpletron, FILE **pf);
+status_t grabar_fichero_txt(simpletron_t *simpletron, FILE **pf);
+status_t proceso_argumentos(int argc,char **argv,simpletron_t *simpletron,PARAMETROS_T *flags, char **nomin, char **nomout);
 status_t procesamiento(simpletron_t *simpletron);
 
 /*Funciones que se usan en el procesamiento*/
