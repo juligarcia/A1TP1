@@ -19,11 +19,10 @@ int main(int argc,char *argv[]){
 		return EXIT_SUCCESS;
 		}
 	puts("3");
-	puts("hola");
 	/*printf("%s:%s\n", MSJ_AR_ENTRADA, nomin);
 	printf("%s:%s\n", MSJ_AR_SALIDA, nomout);
 	printf("%s:%d\n", MSJ_CANT_PROC, simpletronp.cant);*/
-	
+	puts("4");
 	/*Se lee y procesa datos por distintos tipos de data input*/
 	
 	if(flags.stdi == true){
@@ -141,12 +140,12 @@ status_t grabar_fichero_txt(simpletron_t *simpletron, FILE **pf){
 	
 	int i=0;	
 	
-	fprintf(*pf, "%02d", (*simpletron).palabras[i]);
+	fprintf(*pf, "%02d", simpletron->palabras[i]);
 	
-	for(i = 1; i < (*simpletron).cant; i++){
+	for(i = 1; i < simpletron->cant; i++){
 		fputc('\n', *pf);
 		printf("guardePROC\n");
-		fprintf(*pf,"%02d",(*simpletron).palabras[i]);
+		fprintf(*pf, "%02d", simpletron->palabras[i]);
 		}
 	return ST_OK;
 }
