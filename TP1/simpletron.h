@@ -39,7 +39,6 @@ bool op_jmpzero(simpletron_t *simpletron);
 bool op_jmz(simpletron_t *simpletron);
 bool op_djnz(simpletron_t *simpletron);
 void op_cargarp(simpletron_t *simpletron);
-void op_halt(simpletron_t *simpletron);
 void imprimir_memo(simpletron_t *simpletron);
 void op_cargarp(simpletron_t *simpletron);
 void op_guardarp(simpletron_t *simpletron);
