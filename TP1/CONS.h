@@ -37,4 +37,5 @@
 #define MAX_ARGC 11
 #define MIN_ARGC 2
 
+#define NO_MEM "+XXXX"
 #define DEFAULT_MALLOC 10

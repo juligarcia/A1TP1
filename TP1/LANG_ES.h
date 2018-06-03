@@ -33,7 +33,7 @@
 #define MSJ_AR_SALIDA "Archivo de salida"
 #define MSJ_CANT_PROC "Cantidad de procesos"
 #define MSJ_NO_IN "No hay archivo de entrada"
-#define MSJ_NO_OUT "No hay archuvo de salida"
+#define MSJ_NO_OUT "No hay archivo de salida"
 
 /*Mensajes en ESPAÑOL para las diferentes funciones*/
 /*MENSAJES FUNCION grabar_fichero_txt*/
