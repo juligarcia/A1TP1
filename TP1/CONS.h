@@ -39,3 +39,4 @@
 
 #define NO_MEM "+XXXX"
 #define DEFAULT_MALLOC 10
+#define AR_AYUDA "Ayuda.txt"

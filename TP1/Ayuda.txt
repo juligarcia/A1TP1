@@ -1,0 +1,13 @@
+*** AYUDA ***
+
+Argumentos del programa
+
+Arg.	Opcion	Descripcion
+-h		Muestra una ayuda
+-m	N	Simpletron tiene una memoria de N palabras. Por omision sera 50.
+-i	archivo	El programa se leera desde el archivo con nombre indicado, caso contrario stdin.
+-if	bin	El archivo de entrada es de tipo binario.
+	txt	El archivo de entrada es de tipo texto.
+-o	archivo	El dump se hara en el archivo indicado. Por omision por stoud.
+-of	bin	El dump sera en binario.
+	txt	El dump sera en txt.

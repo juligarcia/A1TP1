@@ -4,7 +4,7 @@ int main(int argc,char *argv[]){
 
 	PARAMETROS_T flags;
 	simpletron_t simpletronp;
-	char *nomin=MSJ_NO_OUT, *nomout=MSJ_NO_OUT;
+	char *nomin = MSJ_NO_OUT, *nomout = MSJ_NO_OUT, *ayuda = AR_AYUDA;
 	FILE *pf;
 	
 	simpletronp.acumulador = 0;
@@ -14,8 +14,11 @@ int main(int argc,char *argv[]){
 	if(proceso_argumentos(argc, argv, &simpletronp, &flags, &nomin, &nomout) != ST_OK){
 		return EXIT_FAILURE;
 		}
+
 	printf("%s\n",MSJ_BIENVENIDA);
+
 	if(flags.help == true){
+		imprimir_ayuda(ayuda);
 		return EXIT_SUCCESS;
 		}
 
@@ -650,3 +653,20 @@ void imprimir_memo(simpletron_t *simpletron){
     printf("\n");
 }
 
+status_t imprimir_ayuda(char *ayuda){
+	FILE *pf;
+	char buff[MAX_BUFF];
+
+
+	if((pf = fopen(ayuda, "r")) == NULL){
+		return ST_ERROR_NO_LEIDO;
+	}
+
+	while(fgets(buff, sizeof(buff), pf)){
+			printf("%s\n", buff);
+		}
+
+	fclose(pf);
+
+	return ST_OK;
+}
