@@ -42,7 +42,7 @@ void op_cargarp(simpletron_t *simpletron);
 void op_guardarp(simpletron_t *simpletron);
 status_t op_leer(simpletron_t *simpletron);
 void imprimir_memo(simpletron_t *simpletron);
-status_t imprimir_ayuda(char *ayuda);
+status_t imprimir_txt(char *file);
 
 
 

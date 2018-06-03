@@ -1,10 +1,8 @@
+#define AR_AYUDA "help-us.txt"
+#define AR_BIENVENIDA "hello-es.txt"
 #define MSJ_BIENVENIDA "Welcome to RoboCop, created by the students"
 #define MSJ_INSTRUCTOR ""
-#define MSJ_AYUDA ""
 #define MSJ_INGRESE_POS ""
-
-
-
 /*Mensajes en INGLES para el seguimiento del procedimiento*/
 #define MSJ_LEER "The word has been saved"
 #define MSJ_POS "at memory position N°"

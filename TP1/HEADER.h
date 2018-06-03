@@ -17,6 +17,9 @@ typedef struct simpletron_t {palabra_t *palabras; palabra_t acumulador; size_t p
 							
 typedef struct PARAMETROS_T{bool help; bool m; bool ent; bool stdo; bool stdi; bool itxt; bool otxt;}PARAMETROS_T;
 
+typedef enum { ARG_I, ARG_IF, ARG_OF, ARG_O, ARG_H, ARG_M, ARG_INVALIDO }arg_t;
+
+const char *argumentos_validos[] = { PARAM1,PARAM2,PARAM3,PARAM4,PARAM5,PARAM6};
 /*Esta como variable global ya que es un diccionario*/
 
 #endif
