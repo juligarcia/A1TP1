@@ -25,7 +25,7 @@
 #define CANT_DEFAULT 50
 #define MAX_BUFF 100
 /*Argumentos*/
-#define FSIMBOL '-'
+#define FSIMBOL '-' /*Este simbolo es el primero que se pone en los argumentos por linea de comandos*/
 #define DE_TXT "txt"
 #define DE_BIN "bin"
 #define PARAM1 "-i"
@@ -36,6 +36,5 @@
 #define PARAM6 "-m"
 #define MAX_ARGC 11
 #define MIN_ARGC 2
-
-#define NO_MEM "+XXXX"
+#define NO_MEM "+XXXX" /*Se explica en la funcion imprimir_memo para que se usa*/
 #define DEFAULT_MALLOC 10

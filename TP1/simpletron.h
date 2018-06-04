@@ -1,3 +1,4 @@
+
 /*Proteccion contra inclusion multiple*/
 
 #ifndef SIMPLETRON__H 
@@ -6,8 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "CONS.h"
-#include "HEADER.h"
+#include "CONSTANTES.h"
+#include "ESTRUCTURAS.h"
 
 /*Seleccion del lenguaje, ES ESPAÑOL, US INGLES*/
 
@@ -15,9 +16,7 @@
 
 #include "LANG.h"
 
-
 /*PROTOTIPOS*/
-
 status_t leer_stdin(simpletron_t *simpletron);
 status_t leer_fichero_bin(simpletron_t *simpletron, FILE *pf);
 status_t leer_fichero_txt(simpletron_t *simpletron, FILE *pf);
@@ -41,9 +40,8 @@ bool op_djnz(simpletron_t *simpletron);
 void op_cargarp(simpletron_t *simpletron);
 void op_guardarp(simpletron_t *simpletron);
 status_t op_leer(simpletron_t *simpletron);
+/*Funciones de impresion de datos*/
 void imprimir_memo(simpletron_t *simpletron);
 status_t imprimir_txt(char *file);
-
-
 
 #endif

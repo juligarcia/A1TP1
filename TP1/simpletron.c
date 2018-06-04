@@ -151,6 +151,8 @@ status_t leer_stdin(simpletron_t *simpletron){
 		}
 
 		temp = strtol(buff, &pnl, 10);
+
+
 		
 		/*Validamos el valor de aux antes de pasarlo al vector de ordenes*/
 		if(temp == END_READ){
@@ -241,86 +243,111 @@ status_t grabar_fichero_bin(simpletron_t *simpletron, FILE **pf){
 
 status_t proceso_argumentos(int argc, char **argv, simpletron_t *simpletron, PARAMETROS_T *flags, char **nomin, char **nomout){
 	
-	int i,j;
+	int i, j;
 	char *pnl;
 	
 	if((argc < MIN_ARGC) || (argc > MAX_ARGC)){
 		return ST_ERROR_MISS_ARG;
-		}
+	}
+
 	for(i = 1; i < argc; i++){
         for(j = 0; j < ARG_INVALIDO; j++){
-            if( !strcmp(argv[i], argumentos_validos[j]) )
+            if(!strcmp(argv[i], argumentos_validos[j]))
                 break;
         }
-        switch(j){
-            case ARG_H:
+
+	  	switch(j){
+
+	        case ARG_H:
 				flags->help = true;
+
 				return ST_OK;
-            case ARG_M:
-                if(argv[i + 1][0] == FSIMBOL){
-				simpletron->cant = CANT_DEFAULT;
-				break;
+
+	        case ARG_M:
+	            if(argv[i + 1][0] == FSIMBOL){
+					simpletron->cant = CANT_DEFAULT;
+					break;
 				}
+
 				simpletron->cant = strtol(argv[i + 1], &pnl, 10);
+
 				if((*pnl = '\0') && *pnl!='\n'){
-				return ST_ERROR_NO_NUM;
+					return ST_ERROR_NO_NUM;
 				}
+
 				if(simpletron->cant == 0){
-				simpletron->cant=CANT_DEFAULT;
-				break;
+					simpletron->cant=CANT_DEFAULT;
+					break;
 				}
+
 				i++;
+
 				break;
-            case ARG_I:
-               if((argv[i + 1][0]) != FSIMBOL){
-				*nomin = argv[i+1];
-				i++;
-				break;
+
+	        case ARG_I:
+	            if((argv[i + 1][0]) != FSIMBOL){
+					*nomin = argv[i+1];
+					i++;
+					break;
 				}
+
 				flags->stdi = true;
+
 				break;
+
 			case ARG_O:
-                if(argv[i+1][0]!=FSIMBOL){
-				*nomout = argv[i+1];
-				i++;
-				break;
+	            if(argv[i+1][0]!=FSIMBOL){
+					*nomout = argv[i+1];
+					i++;
+					break;
 				}
+
 				flags->stdo = true;
+
 				break;
+
 			case ARG_IF:
-                if(argv[i+1][0]==FSIMBOL){
-				return ST_ERROR_MISS_ARG;
+	            if(argv[i+1][0]==FSIMBOL){
+					return ST_ERROR_MISS_ARG;
 				}
+					
 				if(strcmp(argv[i+1],DE_TXT)==0){
-				flags->itxt=true;
-				i++;
-				break;
+					flags->itxt=true;
+					i++;
+					break;
 				}
+					
 				if(strcmp(argv[i+1],DE_BIN)==0){
-				flags->itxt=false;
-				i++;
-				break;
+					flags->itxt=false;
+					i++;
+					break;
 				}
-				return ST_ERROR_ARG_LEIDOS;
+					return ST_ERROR_ARG_LEIDOS;
+
 			case ARG_OF:
-                if(argv[i+1][0]==FSIMBOL){
-				return ST_ERROR_MISS_ARG;
+	            if(argv[i+1][0]==FSIMBOL){
+					return ST_ERROR_MISS_ARG;
 				}
+
 				if(strcmp(argv[i+1],DE_TXT)==0){
-				flags->otxt=true;
-				i++;
-				break;
+					flags->otxt=true;
+					i++;
+					break;
 				}
+
 				if(strcmp(argv[i+1],DE_BIN)==0){
-				flags->otxt=false;
-				i++;
-				break;
+					flags->otxt=false;
+					i++;
+					break;
 				}
-				return ST_ERROR_ARG_LEIDOS;
-            default:
-                return ST_ERROR_ARG_LEIDOS;
-        }
-    }
+
+					return ST_ERROR_ARG_LEIDOS;
+
+	        default:
+
+	                return ST_ERROR_ARG_LEIDOS;
+    	}
+	}
 	return EXIT_SUCCESS;
 }
 
@@ -517,7 +544,7 @@ void op_multiplicar(simpletron_t *simpletron){
 
 	simpletron->acumulador *= simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)];
 	
-	}
+}
 
 void op_jmp(simpletron_t *simpletron){
 
@@ -525,7 +552,7 @@ void op_jmp(simpletron_t *simpletron){
 
 	simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 2 ;
 
-	}	
+}	
 
 bool op_jmpneg(simpletron_t *simpletron){
 
@@ -534,12 +561,12 @@ bool op_jmpneg(simpletron_t *simpletron){
 	if(simpletron->acumulador < 0){
 		simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 2 ;
 		return true;
-		}
+	}
 
 	else{
 		return false;
-		}
 	}
+}
 
 bool op_jmpzero(simpletron_t *simpletron){
 
@@ -548,12 +575,12 @@ bool op_jmpzero(simpletron_t *simpletron){
 	if(simpletron->acumulador == 0){
 		simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 2 ;
 		return true;
-		}
+	}
 
 	else{
 		return false;
-		}
 	}
+}
 
 bool op_jmz(simpletron_t *simpletron){
 
@@ -562,12 +589,12 @@ bool op_jmz(simpletron_t *simpletron){
 	if((simpletron->acumulador)){
 		simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 2 ;
 		return true;
-		}
+	}
 
 	else{
 		return false;
-		}
 	}
+}
 
 bool op_djnz(simpletron_t *simpletron){
 
@@ -576,13 +603,13 @@ bool op_djnz(simpletron_t *simpletron){
 	if(!(simpletron->acumulador -= simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)])){
 		simpletron->pc = -1;
 		return true;
-		}
+	}
 
 	else{
 		simpletron->acumulador -= simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)];
 		return false;
-		}
-	}	
+	}
+}	
 
 void op_cargarp(simpletron_t *simpletron){
 
@@ -607,7 +634,7 @@ void imprimir_memo(simpletron_t *simpletron){
 	printf("%s\n", MSJ_REGISTRO);
     printf("%s %d\n", MSJ_ACUMULADOR , simpletron->acumulador);
     printf("%s %02ld\n", MSJ_PCOUNT, simpletron->pc);
-    printf("%s %04d\n", MSJ_INSTRUCCION, simpletron->palabras[simpletron->pc]);
+    printf("%s %+05d\n", MSJ_INSTRUCCION, simpletron->palabras[simpletron->pc]);
     printf("%s %02d\n", MSJ_OPCODE, simpletron->palabras[simpletron->pc]/100);
     printf("%s %02d\n", MSJ_OPERANDO, (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100));
 
@@ -634,12 +661,11 @@ void imprimir_memo(simpletron_t *simpletron){
        		printf("\n");
         	k = 10 * i;
         	printf("%2d", k);
-        	l++;
         }
 
         for(j = 0; j < 10; j++){
            
-            if(l <= (simpletron->cant)){
+            if(l < (simpletron->cant)){
                 printf("%+7.04d", simpletron->palabras[l]);
             }
             else{

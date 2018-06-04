@@ -1,7 +1,6 @@
 #define AR_AYUDA "help-es.txt"
 #define AR_BIENVENIDA "hello-es.txt"
 #define MSJ_BIENVENIDA "Bievenido a Simpletron"
-#define MSJ_INSTRUCTOR "A continuacion se pedira ingreso de procedimientos en orden, para finalizar"
 #define MSJ_INGRESE_POS "Ingrese la palabra a guardar en la posicion de memoria"
 /*Mensajes en ESPAÑOL para el seguimiento del procedimiento*/
 #define MSJ_COMIENZO_PROC "*** INICIO EJECUCION DEL SIMPLETRON ***"
@@ -17,7 +16,6 @@
 #define MSJ_JMP "Se ha saltado a la orden en la posicion de memoria"
 #define MSJ_CARGARP "Se ha cargado al acumulador el valor de lo apuntado por el puntero de la posicion"
 #define MSJ_GUARDARP "Se ha guardado el valor del acumulador en la posicion indicada por el puntero de la posicion"
-#define MSJ_ORDEN_INVAL "Lo guardado no es una orden valida."
 #define MSJ_FIN_DEL_PROGRAMA "*** FIN DE EJECUCION DEL SIMPLETRON ***"
 /*Mensajes en ESPAÑOL para impresion de datos*/
 #define MSJ_REGISTRO "REGISTROS:"
@@ -35,5 +33,5 @@
 #define MSJ_NO_OUT "No hay archivo de salida"
 #define MSJ_NOM_AR "Nombre de archivo"
 /*Mensajes en ESPAÑOL para las diferentes funciones*/
-/*MENSAJES FUNCION grabar_fichero_txt*/
+/*Mensajes para la funcion grabar_fichero_txt en ESPAÑOL*/
 #define MSJ_AR_GUARDADO "Nombre del archivo guardado"
