@@ -217,10 +217,6 @@ status_t leer_fichero_txt(simpletron_t *simpletron, FILE *pf){
 	while((fgets(buff, sizeof(buff), pf))){
 		
 		aux = strtol(buff, &pnl, 10); 
-
-		if(*pnl != '\0' && *pnl != '\n'){
-			return ST_ERROR_NO_NUM;
-		}
 		
 		/*Nos aseguramos de que las ordenes son todas positivas*/
 
@@ -451,7 +447,7 @@ status_t procesamiento(simpletron_t *simpletron){
 
 			case ARG_JMP: 
 				op_jmp(&(*simpletron));
-				printf("%s:%02d\n\n", MSJ_JMP, simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)]);
+				printf("%s:%02d\n\n", MSJ_JMP, (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100));
 
 				break;
 
@@ -582,7 +578,7 @@ void op_jmp(simpletron_t *simpletron){
 
 	/*Salta a la orden especificada*/
 
-	simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 2 ;
+	simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 1 ;
 
 }	
 
@@ -591,7 +587,7 @@ bool op_jmpneg(simpletron_t *simpletron){
 	/*Salta a la orden especificada SOLO SI el acumulador es negativo*/
 
 	if(simpletron->acumulador < 0){
-		simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 2 ;
+		simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 1 ;
 		return true;
 	}
 
@@ -605,7 +601,7 @@ bool op_jmpzero(simpletron_t *simpletron){
 	/*Salta a la orden especificada SOLO SI el acumulador es 0*/
 	
 	if(simpletron->acumulador == 0){
-		simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 2 ;
+		simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 1 ;
 		return true;
 	}
 
@@ -619,7 +615,7 @@ bool op_jmz(simpletron_t *simpletron){
 	/*Salta a la orden especificada SOLO SI el acumulador es distinto de 0*/
 
 	if((simpletron->acumulador)){
-		simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 2 ;
+		simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 1 ;
 		return true;
 	}
 
