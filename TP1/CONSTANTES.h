@@ -18,12 +18,13 @@
 #define DJNZ 44
 #define HALT 45
 #define END_READ -99999
-/*Modificas la cantidad de comandos*/
 #define MAX_PROC_NUM 2
 #define MAX_POS_NUM 2
 #define MAX_LIM_POS 100
 #define CANT_DEFAULT 50
 #define MAX_BUFF 100
+#define MIN_VALIDO -9999
+#define MAX_VALIDO 9999
 /*Argumentos*/
 #define FSIMBOL '-' /*Este simbolo es el primero que se pone en los argumentos por linea de comandos*/
 #define DE_TXT "txt"

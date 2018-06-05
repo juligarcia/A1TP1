@@ -1,4 +1,3 @@
-
 /*Proteccion contra inclusion multiple*/
 
 #ifndef SIMPLETRON__H 

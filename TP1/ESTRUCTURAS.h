@@ -1,4 +1,3 @@
-
 /*Proteccion contra inclusion multiple*/
 
 #ifndef ESTRUCTURAS__H 

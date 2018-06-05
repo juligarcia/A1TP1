@@ -41,6 +41,7 @@ int main(int argc,char *argv[]){
 				if((pf=fopen(nomin,"r")) == NULL){
 					return ST_ERROR_PTR_NULL;
 				}
+
 				if(leer_fichero_txt(&simpletronp, pf) != ST_OK){
 					return EXIT_FAILURE;
 				}
@@ -51,6 +52,7 @@ int main(int argc,char *argv[]){
 				if((pf=fopen(nomin,"rb")) == NULL){
 					return ST_ERROR_PTR_NULL;
 				}
+
 				if(leer_fichero_bin(&simpletronp, pf) != ST_OK){
 					return EXIT_FAILURE;
 				}
@@ -58,10 +60,11 @@ int main(int argc,char *argv[]){
 				break;
 
 			default:
-					return EXIT_FAILURE;
+				return EXIT_FAILURE;
 
 				break;
 		}
+
 		if(fclose(pf)){
 			return ST_ERROR_OUT_RANG;
 		}
@@ -87,7 +90,9 @@ int main(int argc,char *argv[]){
 				if((pf = fopen(nomout,"w")) == NULL){
 					return ST_ERROR_PTR_NULL;
 				}
+
 				printf("%s:%s\n", MSJ_AR_GUARDADO, nomout);
+
 				if((grabar_fichero_txt(&simpletronp, &pf)) != ST_OK){
 					return EXIT_FAILURE;
 				}	
@@ -98,7 +103,9 @@ int main(int argc,char *argv[]){
 				if((pf=fopen(nomout, "wb"))==NULL){
 					return ST_ERROR_PTR_NULL;
 				}
+
 				printf("%s:%s\n",MSJ_NOM_AR, nomout);
+
 				if((grabar_fichero_bin(&simpletronp, &pf)) != ST_OK){
 					return EXIT_FAILURE; 
 				}
@@ -107,13 +114,19 @@ int main(int argc,char *argv[]){
 
 			default: 
 				return EXIT_FAILURE;
+
 				break;
 			}
+
 			if(fclose(pf)){
 				return ST_ERROR_OUT_RANG;
 			}
 		}	
+
+		free(simpletronp.palabras);
+
 	return EXIT_SUCCESS;
+
 	}
 
 	/*Finalizacion de guardar archivos de OUTPUT*/
@@ -152,7 +165,9 @@ status_t leer_stdin(simpletron_t *simpletron){
 
 		temp = strtol(buff, &pnl, 10);
 
-
+		if(*pnl != '\0' && *pnl != '\n'){
+			return ST_ERROR_NO_NUM;
+		}
 		
 		/*Validamos el valor de aux antes de pasarlo al vector de ordenes*/
 		if(temp == END_READ){
@@ -160,11 +175,11 @@ status_t leer_stdin(simpletron_t *simpletron){
 		}
 		else{
 
-			if(temp < -9999 || temp > 9999){
+			if(temp < MIN_VALIDO || temp > MAX_VALIDO){
 				return ST_ERROR_INVALPAL;
 			}
 
-		simpletron->palabras[k] = temp;
+			simpletron->palabras[k] = temp;
 
 		}
 	}
@@ -202,20 +217,27 @@ status_t leer_fichero_txt(simpletron_t *simpletron, FILE *pf){
 	while((fgets(buff, sizeof(buff), pf))){
 		
 		aux = strtol(buff, &pnl, 10); 
+
+		if(*pnl != '\0' && *pnl != '\n'){
+			return ST_ERROR_NO_NUM;
+		}
 		
 		/*Nos aseguramos de que las ordenes son todas positivas*/
+
 		if(aux < 0){
 			free(simpletron->palabras);
 			return ST_ERROR_NEG;
 		}
 
-		/*Nos aseguramos de que la palabra esta en el rango aceptado de 4 digitos*/
-		if(aux < -9999 || aux > 9999){
+		/*Nos aseguramos de que la palabra esta en el rango aceptado*/
+
+		if(aux < MIN_VALIDO || aux > MAX_VALIDO){
 			free(simpletron->palabras);
 			return ST_ERROR_INVALPAL;
 		}
 		
 		/*Si paso las validaciones, entonces la orden es valida y se guarda en el vector de ordenes*/
+
 		simpletron->palabras[k] = aux;
 		
 		k++;
@@ -246,6 +268,8 @@ status_t proceso_argumentos(int argc, char **argv, simpletron_t *simpletron, PAR
 	int i, j;
 	char *pnl;
 	
+	/*Se valida la cantidad de argumentos recibidos*/
+
 	if((argc < MIN_ARGC) || (argc > MAX_ARGC)){
 		return ST_ERROR_MISS_ARG;
 	}
@@ -255,6 +279,9 @@ status_t proceso_argumentos(int argc, char **argv, simpletron_t *simpletron, PAR
             if(!strcmp(argv[i], argumentos_validos[j]))
                 break;
         }
+
+    /*Se recorren los argumentos, comparando con los validos hasta encontrar el coincidente, luego se entra al switch*/
+    /*Se modifican los flags teniendo en cuenta lo ingresado por consola*/
 
 	  	switch(j){
 
@@ -271,7 +298,7 @@ status_t proceso_argumentos(int argc, char **argv, simpletron_t *simpletron, PAR
 
 				simpletron->cant = strtol(argv[i + 1], &pnl, 10);
 
-				if((*pnl = '\0') && *pnl!='\n'){
+				if(*pnl != '\0' && *pnl != '\n'){
 					return ST_ERROR_NO_NUM;
 				}
 
@@ -354,7 +381,6 @@ status_t proceso_argumentos(int argc, char **argv, simpletron_t *simpletron, PAR
 status_t procesamiento(simpletron_t *simpletron){
 
 	int i = 0, j = 0;
-
 	
 	printf("%s\n\n", MSJ_COMIENZO_PROC);
 
@@ -468,7 +494,9 @@ status_t procesamiento(simpletron_t *simpletron){
 										
 			default: 
 
-				j += 1; 
+				j += 1;
+
+				/*Esto se hace para en el final restarle a program counter la cantidad de veces que se paso por una "Orden" no valida, por ejemplo un numero dentro del array*/
 
 				break;
 			}
@@ -494,7 +522,11 @@ status_t op_leer(simpletron_t *simpletron){
 	}
 
 	simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)] = strtol(buff, &pnl, 10);
-	/*validar el strtol*/
+	
+	if(*pnl != '\0' && *pnl != '\n'){
+		return ST_ERROR_NO_NUM;
+	}
+
 	return ST_OK;
 }	
 
@@ -631,12 +663,17 @@ void imprimir_memo(simpletron_t *simpletron){
 
 	int fil, i, j = 0, k, l = 0;
 
+	/*Se impriment los registros, luego la meoria en forma de matriz*/
+
 	printf("%s\n", MSJ_REGISTRO);
     printf("%s %d\n", MSJ_ACUMULADOR , simpletron->acumulador);
     printf("%s %02ld\n", MSJ_PCOUNT, simpletron->pc);
     printf("%s %+05d\n", MSJ_INSTRUCCION, simpletron->palabras[simpletron->pc]);
     printf("%s %02d\n", MSJ_OPCODE, simpletron->palabras[simpletron->pc]/100);
     printf("%s %02d\n", MSJ_OPERANDO, (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100));
+
+    /*Se imprime la memoria en forma de matriz*/
+    /*Se calcula la cantidad de filas correspondientes dependiendo de la cantidad de memoria que se pidio ingresando el argumento "-m"*/
 
     if(((simpletron->cant) % 10) != 0){
         fil = (simpletron->cant / 10) + 1;
