@@ -75,7 +75,7 @@ status_t procesamiento(simpletron_t *simpletron){
 
 			case ARG_JMP: 
 				op_jmp(&(*simpletron));
-				printf("%s:%02d\n\n", MSJ_JMP, simpletron->palabras[(simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100)]);
+				printf("%s:%02d\n\n", MSJ_JMP, (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100));
 
 				break;
 

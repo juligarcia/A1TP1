@@ -1,0 +1,12 @@
++1009 ; LEER en la posición de memoria 09
++1010 ; LEER en la posición de memoria 10
++2009 ; CARGAR la posición de memoria 09 al acumulador
++3010 ; SUMAR al acumulador la posición de memoria 10
++2111 ; GUARDAR el acumulador en la posición de memoria 11
++1111 ; ESCRIBIR por pantalla el contenido de la memoria 11
++4500 ; HALT
++0000 ; nop
++0000 ; nop
++0000 ; Variable A
++0000 ; Variable B
++0000 ; Resultado

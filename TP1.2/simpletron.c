@@ -13,7 +13,6 @@ int main(int argc,char *argv[]){
 	simpletronp.pc = 0;
 	
 	/*Se comienza a procesar argumentos*/
-	
 	if(proceso_argumentos(argc, argv, &simpletronp, &flags, &nomin, &nomout) != ST_OK){
 		return EXIT_FAILURE;
 	}
@@ -40,18 +39,18 @@ int main(int argc,char *argv[]){
 	else{
 		switch(flags.itxt){
 			case true: 
-				if((pf=fopen(nomin,"r")) == NULL){
+				if((pf = fopen(nomin,"r")) == NULL){
 					return ST_ERROR_PTR_NULL;
 				}
 
 				if(leer_fichero_txt(&simpletronp, pf) != ST_OK){
 					return EXIT_FAILURE;
 				}
-					
-					break;
+				
+				break;
 
 			case false:	
-				if((pf=fopen(nomin,"rb")) == NULL){
+				if((pf = fopen(nomin,"rb")) == NULL){
 					return ST_ERROR_PTR_NULL;
 				}
 

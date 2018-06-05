@@ -91,10 +91,6 @@ status_t leer_fichero_txt(simpletron_t *simpletron, FILE *pf){
 		
 		aux = strtol(buff, &pnl, 10); 
 
-		if(*pnl != '\0' && *pnl != '\n'){
-			return ST_ERROR_NO_NUM;
-		}
-		
 		/*Nos aseguramos de que las ordenes son todas positivas*/
 
 		if(aux < 0){

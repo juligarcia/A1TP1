@@ -51,9 +51,13 @@ status_t proceso_argumentos(int argc, char **argv, simpletron_t *simpletron, PAR
 				break;
 
 	        case ARG_I:
+
+	        	flags->stdi = false;
+
 	            if((argv[i + 1][0]) != FSIMBOL){
 					*nomin = argv[i+1];
 					i++;
+
 					break;
 				}
 

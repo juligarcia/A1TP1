@@ -83,7 +83,7 @@ void op_jmp(simpletron_t *simpletron){
 
 	/*Salta a la orden especificada*/
 
-	simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 2 ;
+	simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 1 ;
 
 }	
 
@@ -93,7 +93,7 @@ bool op_jmpneg(simpletron_t *simpletron){
 	/*Salta a la orden especificada SOLO SI el acumulador es negativo*/
 
 	if(simpletron->acumulador < 0){
-		simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 2 ;
+		simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 1 ;
 		return true;
 	}
 
@@ -108,7 +108,7 @@ bool op_jmpzero(simpletron_t *simpletron){
 	/*Salta a la orden especificada SOLO SI el acumulador es 0*/
 	
 	if(simpletron->acumulador == 0){
-		simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 2 ;
+		simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 1 ;
 		return true;
 	}
 
@@ -123,7 +123,7 @@ bool op_jmz(simpletron_t *simpletron){
 	/*Salta a la orden especificada SOLO SI el acumulador es distinto de 0*/
 
 	if((simpletron->acumulador)){
-		simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 2 ;
+		simpletron->pc = (simpletron->palabras[simpletron->pc]) - 100*((simpletron->palabras[simpletron->pc])/100) - 1 ;
 		return true;
 	}
 
